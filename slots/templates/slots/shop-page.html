@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'slots/css/shops.css' %}" rel="stylesheet">
+{% endblock  %}
+
+{% block title %}{{ shop.name }}{% endblock %}
+
+{% block header %}
+    <a href="{% url 'slots:shops' %}">
+        <h1>{{ shop.name }}</h1>
+    </a>
+{% endblock %}
+
+{% block content %}
+    <p>There are <b>{{ shop.slot_amount }}</b> slots.</p>
+    <div class="container slot-container">
+        {% for slot in shop.slot_set.all %}
+            <div class="slot{{ slot.taken|yesno:' taken,' }}">
+                <b>{{ slot.position|add:1 }}</b>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <p>This is the slot page for {{ shop.name }}.</p>
+{% endblock  %}

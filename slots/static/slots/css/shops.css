@@ -1,0 +1,34 @@
+.shop-container {
+    margin: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    grid-template-rows: max-content;
+    gap: 2rem;
+}
+
+.shop {
+    padding: 1rem;
+    border-radius: 1rem;
+
+    background-color: var(--f);
+}
+
+.shop-container * {
+    text-decoration: none;
+    color: black;
+}
+
+.slot-container {
+    margin: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 1rem;
+
+}
+
+.slot {
+    padding: 1rem;
+    background-color: var(--g);
+}
+
+.taken {
+    background-color:var(--d);
+}
