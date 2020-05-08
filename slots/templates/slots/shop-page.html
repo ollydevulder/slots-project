@@ -16,7 +16,7 @@
 {% block content %}
     <p>There are <b>{{ shop.slot_amount }}</b> slots.</p>
     <div class="container slot-container">
-        {% for slot in shop.slot_set.all %}
+        {% for slot in shop.ordered_slots %}
             <div class="slot{{ slot.taken|yesno:' taken,' }}">
                 <b>{{ slot.position|add:1 }}</b>
             </div>

@@ -8,10 +8,13 @@ from .models import Shop
 def index(request):
     return HttpResponse('This is the index page :)')
 
+
 class ShopsView(ListView):
     model = Shop
     template_name = 'slots/shops.html'
     context_object_name = 'shop_list'
+    ordering = ['name']
+
 
 class ShopView(DetailView):
     model = Shop
