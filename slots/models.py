@@ -30,7 +30,7 @@ class Shop(models.Model):
 
     @property
     def ordered_slots(self):
-        # Template property for the sorted slots
+        # Template property for the sorted slots.
         return self.slot_set.order_by('position')
 
 
