@@ -74,6 +74,10 @@ WSGI_APPLICATION = 'covidproject.wsgi.application'
 
 DATABASES = {
     # Handled by django-heroku.
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
+    },
 }
 
 
@@ -117,5 +121,5 @@ STATICFILES_DIRS = [
 ]
 
 
-# 
-django_heroku.settings(locals())
+if not DEBUG:
+    django_heroku.settings(locals())
