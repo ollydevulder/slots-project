@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 import django_heroku
-import dj_database_url
+#import dj_database_url
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'Secret key.')
+SECRET_KEY =  'test'   #os.getenv('SECRET_KEY', 'Secret key.')
 
 DEBUG = False
 
@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'covidproject.wsgi.application'
 
 DATABASES = {
     # Parse the values of the DATABASE_URL environment variable
-    'default': dj_database_url.config(ssl_require=True),
+    #'default': dj_database_url.config(ssl_require=True),
 }
 
 
