@@ -7,7 +7,7 @@ from .models import Shop
 
 def index(request):
     # Temporary redirect until user system added
-    return redirect('shops')
+    return redirect('/shops')
 
 
 class ShopsView(ListView):
