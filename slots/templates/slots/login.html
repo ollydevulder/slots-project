@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block header %}
+<h1>Verify Identity</h1>
+{% endblock %}
+
+{% block content %}
+    <form>
+        <span>Code <input type="password" maxlength="6"></span>
+    </form>
+    <a href="{% url 'slots:shops' %}"><p>Shop List</p></a>
+{% endblock %}
+
+{% block sidebar %}<!-- empty -->{% endblock %}

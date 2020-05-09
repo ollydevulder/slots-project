@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}Slots App{% endblock %}</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Lato&display=swap" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
@@ -21,7 +21,11 @@
             {% block content %}{% endblock %}
         </div>
         <div class="sidebar">
-            {% block sidebar %}{% endblock %}
+            {% block sidebar %}        
+                <ul class="linklist">
+                    <a href="{% url 'slots:shops' %}"><li>SHOPS</li></a>
+                </ul>
+            {% endblock %}
         </div>
     </div>
 </body>

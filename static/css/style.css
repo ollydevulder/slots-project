@@ -2,21 +2,23 @@
 
     /* Centralize the colours to control look from one place. */
 
-    --a: #eae7dc;
-    --b: #d8c3a5;
-    --c: #838d8a;
-    --d: #e98074;
-    --e: #e85a4f;
-    --f: #a8e6cf;
-    --g: #89fa73;
-    --h: #d3bea0;
+    --background: #eae7dc;
+    --background2: #d8c3a5;
+    --light-red: #e98074;
+    --taken: #e85a4f;
+    --red: #e85a4f;
+    
+    --blue: #a8e6cf;
+    --green: #89fa73;
+    --h: #ece3c6;
 }
 
 html {
     font-size: 100%;
 }
+
 body {
-    background-color: var(--a);
+    background-color: var(--background);
     margin: 0;
     font-family: 'Bree Serif', serif;
 }
@@ -26,7 +28,7 @@ h1 {
     /* font-family: 'Bree Serif', serif; */
 }
 
-p {
+p, li {
     font-size: 1.25rem;
     /* font-family: 'Lato', sans-serif; */
 }
@@ -40,12 +42,12 @@ a {
 }
 
 .main-container {
-    height:100%;
-    grid-template-areas: 
-        "header header"
+    height: 100%;
+    grid-template-areas:
+        "header  header"
         "content sidebar";
     grid-template-rows: max-content;
-    grid-template-columns: 4fr 1fr;   
+    grid-template-columns: 4fr 1fr;
 }
 
 .main-container > * {
@@ -55,21 +57,25 @@ a {
 .header {
     grid-area: header;
     place-self: center stretch;
+    padding-left: 1rem;
 
-    padding-left:1rem;
+    background-color: var(--background2);
+    border-left: 0.8em solid var(--light-red);
+    /* color: var(--e); */
+}
 
-    background-color: var(--b);
-    color: var(--e);
+.header h1 {
+    color: var(--red);
 }
 
 .content {
     grid-area: content;
-    margin:1rem;
+    margin: 1rem;
 }
 
 .sidebar {
     grid-area: sidebar;
-    background-color: var(--a);
+    background-color: var(--background);
 }
 
 @media screen and (max-width:60em) {
@@ -80,10 +86,22 @@ a {
             "sidebar";
         grid-template-columns: 1fr;
     }
+
     .sidebar {
         border: none;
         align-self: center stretch;
-
-        background-color: var(--c);
+        /* border-left: 0.8em solid var(--d); */
     }
+}
+
+ul.linklist {
+    list-style-type: lower-greek;
+}
+
+ul.linklist li {
+    color: var(--red);
+}
+
+ul.linklist li.current {
+    font-style: italic;
 }

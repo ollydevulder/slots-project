@@ -10,6 +10,10 @@ def index(request):
     return redirect('/shops')
 
 
+def login(request):
+    return render(request, template_name='slots/login.html')
+
+
 class ShopsView(ListView):
     model = Shop
     template_name = 'slots/shops.html'

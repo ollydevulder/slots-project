@@ -3,18 +3,34 @@
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     grid-template-rows: max-content;
     gap: 2rem;
+
+    text-decoration: none;
+}
+
+.shop-container p {
+    color: black;
 }
 
 .shop {
     padding: 1rem;
     border-radius: 1rem;
 
-    background-color: var(--f);
+    background-color: var(--blue);
+    transition: background-color 0.75s ease;
 }
 
-.shop-container * {
-    text-decoration: none;
-    color: black;
+@keyframes shop-hover {
+    from {
+        background-color: var(--f);
+    }
+
+    to {
+        background-color: var(--green);
+    }
+}
+
+.shop:hover {
+    background-color: var(--green);
 }
 
 .slot-container {
@@ -26,9 +42,9 @@
 
 .slot {
     padding: 1rem;
-    background-color: var(--g);
+    background-color: var(--green);
 }
 
 .taken {
-    background-color:var(--d);
+    background-color:var(--taken);
 }
