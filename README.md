@@ -1,3 +1,3 @@
 # Slots Project
 A django web app for a school project.
-I will write more in this README.
+It is hosted on Heroku [here](https://slots-app.herokuapp.com/).

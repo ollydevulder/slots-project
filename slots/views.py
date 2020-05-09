@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import DetailView, ListView
 
@@ -6,7 +6,8 @@ from .models import Shop
 
 
 def index(request):
-    return HttpResponse('This is the index page :)')
+    # Temporary redirect until user system added
+    return HttpResponse('shops')
 
 
 class ShopsView(ListView):
