@@ -1,0 +1,109 @@
+:root {
+
+    /* Centralize the colours to control look from one place. */
+
+    --background: #eae7dc;
+    --background2: #d8c3a5;
+    --light-red: #e98074;
+    --taken: #e85a4f;
+    --red: #e85a4f;
+    --error: #e91a0c;
+    
+    
+    --blue: #a8e6cf;
+    --green: #89fa73;
+    --h: #ece3c6;
+}
+
+html {
+    font-size: 100%;
+}
+
+body {
+    background-color: var(--background);
+    margin: 0;
+    font-family: 'Bree Serif', serif;
+}
+
+h1 {
+    font-size: 3rem;
+    /* font-family: 'Bree Serif', serif; */
+}
+
+p, li {
+    font-size: 1.25rem;
+    /* font-family: 'Lato', sans-serif; */
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    display: grid;
+}
+
+.main-container {
+    height: 100%;
+    grid-template-areas:
+        "header  header"
+        "content sidebar";
+    grid-template-rows: max-content;
+    grid-template-columns: 4fr 1fr;
+}
+
+.main-container > * {
+    padding: 0.5rem;
+}
+
+.header {
+    grid-area: header;
+    place-self: center stretch;
+    padding-left: 1rem;
+
+    background-color: var(--background2);
+    border-left: 0.8em solid var(--light-red);
+    /* color: var(--e); */
+}
+
+.header h1 {
+    color: var(--red);
+}
+
+.content {
+    grid-area: content;
+    margin: 1rem;
+}
+
+.sidebar {
+    grid-area: sidebar;
+    background-color: var(--background);
+}
+
+@media screen and (max-width:60em) {
+    .main-container {
+        grid-template-areas:
+            "header"
+            "content"
+            "sidebar";
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        border: none;
+        align-self: center stretch;
+        /* border-left: 0.8em solid var(--d); */
+    }
+}
+
+ul.linklist {
+    list-style-type: lower-greek;
+}
+
+ul.linklist li {
+    color: var(--red);
+}
+
+ul.linklist li.current {
+    font-style: italic;
+}

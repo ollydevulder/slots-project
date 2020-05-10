@@ -9,6 +9,7 @@ __pycache__/
 *.pyc
 __pycache__/
 migrations/
+staticfiles/
 local_settings.py
 
 .env
