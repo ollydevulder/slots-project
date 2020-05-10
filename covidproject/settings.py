@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'Secret'  # Managed by django-heroku.
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [] # Managed by django-heroku.
 
