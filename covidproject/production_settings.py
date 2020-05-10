@@ -10,4 +10,4 @@ CSRF_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = True
 
 
-heroku_settings(locals())
+heroku_settings(globals())

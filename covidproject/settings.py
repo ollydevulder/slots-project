@@ -11,8 +11,6 @@ import os
 
 from .base_settings import *
 
-# Purposefully duplicated. (Sorry DRY)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 if os.path.isfile(os.path.join(BASE_DIR, '.env')):
     # Running locally.
