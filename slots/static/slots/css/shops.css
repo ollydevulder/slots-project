@@ -19,16 +19,6 @@
     transition: background-color 0.75s ease;
 }
 
-@keyframes shop-hover {
-    from {
-        background-color: var(--f);
-    }
-
-    to {
-        background-color: var(--green);
-    }
-}
-
 .shop:hover {
     background-color: var(--green);
 }

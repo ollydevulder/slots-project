@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block css %}
-<link href="{% static 'slots/css/shops.css' %}" rel="stylesheet">
-{% endblock  %}
+{% block css %}{% static 'slots/css/shops.css' %}{% endblock  %}
 
 {% block title %}{{ shop.name }}{% endblock %}
 
@@ -15,7 +12,7 @@
     <!--<p>There are <b>{{ shop.slot_amount }}</b> slots.</p>-->
     <div class="container slot-container">
         {% for slot in shop.ordered_slots %}
-            <div class="slot{{ slot.taken|yesno:' taken,' }}">
+            <div class="slot{{ slot.user|yesno:' taken,' }}">
                 <b>{{ slot.position|add:1 }}</b>
             </div>
         {% endfor %}

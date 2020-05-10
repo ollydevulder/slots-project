@@ -7,10 +7,9 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Lato&display=swap" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    {% block css %}{% endblock %}
+    <link href="{% block css %}{% endblock %}" rel="stylesheet">
 
     
-
 </head>
 <body>
     <div class="container main-container">
@@ -23,7 +22,8 @@
         <div class="sidebar">
             {% block sidebar %}        
                 <ul class="linklist">
-                    <a href="{% url 'slots:shops' %}"><li>SHOPS</li></a>
+                    <a href="{% url 'slots:shops' %}"><li>shops</li></a>
+                    <a href="{% url 'slots:logout' %}"><li>log out</li></a>
                 </ul>
             {% endblock %}
         </div>

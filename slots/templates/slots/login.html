@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block css %}{% static 'slots/css/login.css' %}{% endblock %}
 
 {% block title %}Login{% endblock %}
 
@@ -8,10 +9,17 @@
 {% endblock %}
 
 {% block content %}
-    <form>
-        <span>Code <input type="password" maxlength="6"></span>
+    <form action="{% url 'slots:login' %}" method="POST" class="container login-form">
+        {% csrf_token %}
+        {% if failed %}
+            <span class="error">Login Failed :(</span>
+        {% endif %}
+        {% comment %} <label for="username">Username</label> {% endcomment %}
+        <input id="username" name="username" type="text" placeholder="username">
+        {% comment %} <label for="password">Password</label> {% endcomment %}
+        <input id="password" name="password" type="password" placeholder="password">
+        <span hidden><input type="submit"></span>
     </form>
-    <a href="{% url 'slots:shops' %}"><p>Shop List</p></a>
 {% endblock %}
 
 {% block sidebar %}<!-- empty -->{% endblock %}
