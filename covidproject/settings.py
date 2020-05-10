@@ -18,3 +18,7 @@ if os.path.isfile(os.path.join(BASE_DIR, '.env')):
 else:
     # Production
     from .production_settings import *
+
+    from django_heroku import settings
+    # Let heroku set values.
+    settings(globals())
