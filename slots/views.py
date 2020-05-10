@@ -1,17 +1,21 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView
+
+# Models
 
 from .models import Shop
 
+# Forms
 
-def check_user(func):
-    """
-    User authentication decorator\n
-    Redirects to login page if User not authenticated.
-    """
+from .forms import LoginForm
+
+# Decorators
+
+from django.utils.decorators import method_decorator
+
+def logged_in(func):
     def wrapper(request, *args, **kwargs):
         if request.user.is_authenticated:
             return func(request, *args, **kwargs)
@@ -19,53 +23,64 @@ def check_user(func):
             return redirect('slots:login')
     return wrapper
 
-
-def login_view(request):
-    template_name = 'slots/login.html'
-    failed = False
-
-    if request.user.is_authenticated:
-        # If already logged in then redirect.
-        return redirect('/')
-
-    if request.method == 'POST':
-        if not set(['username', 'password']).issubset(set(request.POST)):
-            # Form does not have required values
-            failed = True
+def not_logged_in(func):
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return func(request, *args, **kwargs)
         else:
-            # Get form values.
-            username = request.POST['username']
-            password = request.POST['password']
+            return redirect('slots:index')
+    return wrapper
 
-            # Attempt login.
-            user = authenticate(username=username, password=password)
+# Views
+
+@not_logged_in
+def login_view(request):
+    context = {}
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            # Valid form data in form.cleaned_data
+            # Attempt to authenticate.
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+            )
             if user is not None:
-                # Login success
+                # Login the session.
                 login(request, user)
                 # Render success page.
                 return render(request, 'slots/success.html')
             else:
-                # Login failed
-                failed = True
+                # Not authenticated
+                context['error_msg'] = 'Login details incorrect.'
+        else:
+            # Invalid form data
+            context['error_msg'] = 'Invalid form data.'
+
+    form = LoginForm()
+    context['form'] = form
+    context['error'] = 'error_msg' in context
 
     return render(
-        request, 
-        template_name=template_name, 
-        context={ 'failed': failed },
+        request,
+        'slots/login.html',
+        context,
     )
 
-@check_user
+
+@logged_in
 def logout_view(request):
     logout(request)
     return redirect('slots:login')
 
-@check_user
+
+@logged_in
 def index(request):
     # Temporary redirect
     return redirect('slots:shops')
 
 
-@method_decorator(check_user, name='dispatch')
+@method_decorator(logged_in, name='dispatch')
 class ShopsView(ListView):
     model = Shop
     template_name = 'slots/shops.html'
@@ -73,7 +88,7 @@ class ShopsView(ListView):
     ordering = ['name']
 
 
-@method_decorator(check_user, name='dispatch')
+@method_decorator(logged_in, name='dispatch')
 class ShopView(DetailView):
     model = Shop
     template_name = 'slots/shop-page.html'

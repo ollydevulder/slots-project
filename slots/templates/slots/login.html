@@ -11,14 +11,11 @@
 {% block content %}
     <form action="{% url 'slots:login' %}" method="POST" class="container login-form">
         {% csrf_token %}
-        {% if failed %}
-            <span class="error">Login Failed :(</span>
+        {{ form }}
+        {% if error %}
+        <p class="error">{{ error_msg }}</p>
         {% endif %}
-        {% comment %} <label for="username">Username</label> {% endcomment %}
-        <input id="username" name="username" type="text" placeholder="username">
-        {% comment %} <label for="password">Password</label> {% endcomment %}
-        <input id="password" name="password" type="password" placeholder="password">
-        <span hidden><input type="submit"></span>
+        <input type="submit" value="Log In">
     </form>
 {% endblock %}
 
