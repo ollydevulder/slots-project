@@ -69,6 +69,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'covidproject.wsgi.application'
 
+SECURE_SSL_REDIRECT = True
+
 
 # Database
 
