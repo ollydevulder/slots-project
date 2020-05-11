@@ -12,7 +12,7 @@ class Slot(models.Model):
     )
 
     def __str__(self):
-        return f"<Slot shop='{self.shop.name}' taken? {self.taken}>"
+        return f"<Slot shop='{self.shop.name}' taken? {bool(self.user)}>"
 
 
 class Shop(models.Model):
