@@ -15,26 +15,28 @@ from .forms import LoginForm
 
 from django.utils.decorators import method_decorator
 
-def logged_in(func):
-    def wrapper(request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return func(request, *args, **kwargs)
-        else:
-            return redirect('slots:login')
-    return wrapper
-
-def not_logged_in(func):
-    def wrapper(request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return func(request, *args, **kwargs)
-        else:
-            return redirect('slots:index')
-    return wrapper
+class check_logged_in(object):
+    """
+    For wrapping view functions.\n
+    Checks if the user is authenticated and 
+    redirects based on this and the `invert` argument.
+    """
+    def __init__(self, redirect_view, invert=False):
+        self.redirect_view = redirect_view
+        self.invert = bool(invert)
+        
+    def __call__(self, func):
+        def wrapper(request, *args, **kwargs):
+            if bool(request.user.is_authenticated) ^ self.invert:
+                return func(request, *args, **kwargs)
+            else:
+                return redirect(self.redirect_view)
+        return wrapper
 
 # Views
 
-@not_logged_in
-def login_view(request):
+@check_logged_in('slots:shops', True)
+def login_view(request): # slots:login
     context = {}
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -68,28 +70,28 @@ def login_view(request):
     )
 
 
-@logged_in
-def logout_view(request):
+@check_logged_in('slots:login')
+def logout_view(request): # slots:logout
     logout(request)
     return redirect('slots:login')
 
 
-@logged_in
+@check_logged_in('slots:login') # slots:index
 def index(request):
     # Temporary redirect
     return redirect('slots:shops')
 
 
-@method_decorator(logged_in, name='dispatch')
-class ShopsView(ListView):
+@method_decorator(check_logged_in('slots:login'), name='dispatch')
+class ShopsView(ListView): # slots:shops
     model = Shop
     template_name = 'slots/shops.html'
     context_object_name = 'shop_list'
     ordering = ['name']
 
 
-@method_decorator(logged_in, name='dispatch')
-class ShopView(DetailView):
+@method_decorator(check_logged_in('slots:login'), name='dispatch')
+class ShopView(DetailView): # slots:view-shop
     model = Shop
     template_name = 'slots/shop-page.html'
     context_object_name = 'shop'
