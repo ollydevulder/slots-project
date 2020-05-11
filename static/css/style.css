@@ -2,15 +2,14 @@
 
     /* Centralize the colours to control look from one place. */
 
-    --background: #eae7dc;
+    --background: #ebe5cf;
     --background2: #d8c3a5;
     --light-red: #e98074;
     --taken: #e85a4f;
     --red: #e85a4f;
     --error: #e91a0c;
     
-    
-    --blue: #a8e6cf;
+    --purple: #bf39d1;
     --green: #89fa73;
     --h: #ece3c6;
 }
@@ -30,7 +29,7 @@ h1 {
     /* font-family: 'Bree Serif', serif; */
 }
 
-p, li {
+p, li, a {
     font-size: 1.25rem;
     /* font-family: 'Lato', sans-serif; */
 }
@@ -80,6 +79,36 @@ a {
     background-color: var(--background);
 }
 
+.linklist {
+    padding: 1rem;
+    list-style-type: none;
+
+}
+
+.linklist a {
+    margin: 0.5rem;
+    padding: 0.5rem;
+
+    color: var(--red);
+    background-color: var(--background2);
+    border-left: 0.23rem solid var(--light-red);
+}
+
+.linklist a:hover {
+    font-weight: bold;
+    border-left-width: 0.25rem;
+}
+
+.linklist a:focus {
+    font-weight: bold;
+    border-left-width: 0.25rem;
+}
+
+.linklist .user {
+    border-left-color: var(--purple);
+    color: var(--purple);
+}
+
 @media screen and (max-width:60em) {
     .main-container {
         grid-template-areas:
@@ -88,22 +117,4 @@ a {
             "sidebar";
         grid-template-columns: 1fr;
     }
-
-    .sidebar {
-        border: none;
-        align-self: center stretch;
-        /* border-left: 0.8em solid var(--d); */
-    }
-}
-
-ul.linklist {
-    list-style-type: lower-greek;
-}
-
-ul.linklist li {
-    color: var(--red);
-}
-
-ul.linklist li.current {
-    font-style: italic;
 }

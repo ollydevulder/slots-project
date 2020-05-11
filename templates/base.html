@@ -8,23 +8,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Lato&display=swap" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% block css %}{% endblock %}" rel="stylesheet">
-
-    
 </head>
 <body>
     <div class="container main-container">
         <div class="header">
-            {% block header %}{% endblock %}
+            <h1>{% block header %}{% endblock %}</h1>
         </div>
         <div class="content">
             {% block content %}{% endblock %}
         </div>
         <div class="sidebar">
-            {% block sidebar %}        
-                <ul class="linklist">
-                    <a href="{% url 'slots:shops' %}"><li>view shops</li></a>
-                    <a href="{% url 'slots:logout' %}"><li>log out</li></a>
-                </ul>
+            {% block sidebar %}
+                <div class="container linklist">
+                    {% block linklist %}
+                        {% if not user.is_authenticated %}
+                            <a href="{% url 'slots:signup' %}">sign up</a>
+                            <a href="{% url 'slots:login' %}">log in</a>
+                        {% else %}
+                            <a class="user">{{ user.username }}</a>
+                            <a href="{% url 'slots:shops' %}">view shops</a>
+                            <a href="{% url 'slots:logout' %}">log out</a>
+                        {% endif %}
+                    {% endblock %}
+                </div>
             {% endblock %}
         </div>
     </div>

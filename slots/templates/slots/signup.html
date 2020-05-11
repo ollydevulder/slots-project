@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}{% static 'slots/css/forms.css' %}{% endblock %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block header %}Sign Up{% endblock %}
+
+{% block content %}
+    <form action="{% url 'slots:signup' %}" method="POST" class="container form">
+        {% csrf_token %}
+        {% for field in form %}
+            {{ field }}
+        {% endfor %}
+        {% if error %}
+            <div class="error">
+                {% for err in error_msg %}
+                    <p>{{ err }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <input type="submit" value="Create Account">
+    </form>
+{% endblock %}

@@ -1,0 +1,50 @@
+.form {
+    border-left: 0.4rem solid var(--light-red);
+}
+
+.form * {
+    max-width: 15rem;
+    padding: 1rem;
+    margin: 0.3rem;
+}
+
+.form input {
+    border: 0.2rem solid white;
+    background-color: white;
+    transition: 0.5s ease;
+    font-size: 1rem;
+}
+
+.form input:focus {
+    border-color: gray;
+    font-size:1.25rem;
+}
+
+.form input[type=submit] {
+    padding: 0.5rem;
+}
+
+.form input[type=submit]:hover {
+    cursor: pointer;
+    border-color: gray;
+    border-left-color: var(--light-red);
+    font-size: 1.5rem;
+}
+
+.form input[type=submit]:focus {
+    border-color: gray;
+    border-left-color: var(--light-red);
+    font-size: 1.5rem;
+}
+
+.error {
+    color: var(--error);
+    background-color: var(--light-red);
+    margin-left: 0;
+    width: max-content;
+}
+
+.error * {
+    font-size: 1rem;
+    padding: 0.1rem;
+}

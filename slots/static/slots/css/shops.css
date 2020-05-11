@@ -13,14 +13,18 @@
 
 .shop {
     padding: 1rem;
-    border-radius: 1rem;
 
-    background-color: var(--blue);
-    transition: background-color 0.75s ease;
+    border: 0.3rem solid var(--background2);
+    background-color: var(--h);
+    transition: 0.3s ease;
 }
 
 .shop:hover {
-    background-color: var(--green);
+    border-color: var(--light-red);
+}
+
+.shop:focus {
+    border-color: var(--light-red);
 }
 
 .slot-container {
