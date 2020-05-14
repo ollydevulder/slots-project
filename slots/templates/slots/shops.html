@@ -12,6 +12,7 @@
         {% for shop in shop_list %}
             <a href="{% url 'slots:view-shop' shop.pk %}" class="shop">
                 <p>{{ shop.name }}</p>
+                <span>{{ shop.get_amount_available_slots }} slots</span>
             </a>
         {% endfor %}
     </div>

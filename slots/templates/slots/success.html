@@ -4,5 +4,5 @@
 {% block header %}Success :){% endblock %}
 
 {% block content %}
-    <p>{{ message }}</p>
+    <p>{{ message|safe }}</p>
 {% endblock %}

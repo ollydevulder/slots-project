@@ -1,0 +1,58 @@
+.slot-container {
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.slot {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    margin: 1rem;
+
+    text-align: center;
+
+    border: 0.3rem outset var(--background2);
+    border-left-color: var(--light-red);
+    background-color: var(--background2);
+}
+
+.slot .buttons {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly ;
+
+}
+
+.slot a {
+    padding: 0.2rem;
+    flex-grow: 1;
+    
+
+    border: 0.2rem solid black;
+    color: white;
+}
+
+.slot a:hover {
+    font-weight: normal;
+    border-style: inset;
+    color: var(--background);
+}
+
+.slot a.modify {
+    background-color: var(--blue);
+    border-color: var(--dark-blue);
+}
+
+.slot a.cancel {
+    background-color: var(--light-red);
+    border-color: var(--red);
+}
+
+.slot p a {
+    border: none;
+    color: var(--red);
+}
+
+.slot p a:hover {
+    border-style: none;
+    color: var(--light-red);
+}

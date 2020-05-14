@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}{% static 'slots/css/slots.css' %}{% endblock %}
+
+{% block title %}View Slots{% endblock %}
+{% block header %}My Slots{% endblock %}
+
+{% block content %}
+    <div class="container {% if slots %}slot-container{% endif %}">
+        {% if slots %}
+            {% for slot in slots %}
+                <div class="slot">
+                    <p>Slot {{ slot.position|add:1 }} at <a href="{% url 'slots:view-shop' pk=slot.shop.pk %}">{{ slot.shop.name }}</a>.</p>
+                    <div class="buttons">
+                        <a class="modify" href="#">modify</a>
+                        <a class="cancel" href="{% url 'slots:manage-slot' method='cancel' shop=slot.shop.pk slot=slot.position %}">cancel</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>You haven't booked any slots yet :(</p>
+            <p>Check out the shops <a href="{% url 'slots:shops' %}">here</a>!</p>
+        {% endif %}
+    </div>
+{% endblock %}

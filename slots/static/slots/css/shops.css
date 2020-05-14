@@ -12,6 +12,10 @@
 }
 
 .shop {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: baseline;
+    justify-content: space-between;
     padding: 1rem;
 
     border: 0.3rem solid var(--background2);
@@ -21,10 +25,15 @@
 
 .shop:hover {
     border-color: var(--light-red);
+    font-weight: normal;
 }
 
 .shop:focus {
     border-color: var(--light-red);
+}
+
+.shop span {
+    color: #b0b0b0;
 }
 
 .slot-container {
@@ -37,8 +46,32 @@
 .slot {
     padding: 1rem;
     background-color: var(--green);
+    color: black;
+    transition: 0.6s;
 }
 
-.taken {
-    background-color:var(--taken);
+a.slot:hover {
+    /* border-radius: 1rem; /* Circles if you want them. It kinda goes against the theme tho :/ */
+    background-color: var(--darkgreen);
+    color: white;
+}
+
+a.taken {
+    background-color: var(--taken);
+}
+
+a.taken:hover {
+    background-color: var(--taken);
+}
+
+a.noclick {
+    cursor: not-allowed;
+}
+
+a.owns {
+    background-color: var(--orange);
+}
+
+a.owns:hover {
+    background-color: var(--dark-orange);
 }

@@ -37,3 +37,7 @@ class Shop(models.Model):
     def ordered_slots(self):
         # Template property for the sorted slots.
         return self.slot_set.order_by('position')
+
+    @property
+    def get_amount_available_slots(self):
+        return len(self.slot_set.filter(user=None))

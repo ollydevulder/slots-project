@@ -4,14 +4,19 @@
 
     --background: #ebe5cf;
     --background2: #d8c3a5;
-    --light-red: #e98074;
     --taken: #e85a4f;
-    --red: #e85a4f;
     --error: #e91a0c;
-    
+
+    --red: #e85a4f;
+    --light-red: #e98074;
+    --dark-orange: #f5a61d;
+    --orange: #ffca2b;
+    --green: #72f657;
+    --darkgreen: #18b918;
+    --blue: #508ef2;
+    --dark-blue: #2965c4;
     --purple: #bf39d1;
-    --green: #89fa73;
-    --h: #ece3c6;
+    
 }
 
 html {
@@ -36,6 +41,12 @@ p, li, a {
 
 a {
     text-decoration: none;
+    background-color: var(--background2);
+    color: var(--red);
+}
+
+a:hover {
+    font-weight: bold;
 }
 
 .container {
@@ -74,6 +85,10 @@ a {
     margin: 1rem;
 }
 
+.content p {
+    margin: 0.5rem 1.5rem;
+}
+
 .sidebar {
     grid-area: sidebar;
     background-color: var(--background);
@@ -109,12 +124,23 @@ a {
     color: var(--purple);
 }
 
+.linklist .logout:hover {
+    background-color: var(--light-red);
+    color: white;
+}
+
 @media screen and (max-width:60em) {
     .main-container {
         grid-template-areas:
             "header"
-            "content"
-            "sidebar";
+            "sidebar"
+            "content";
         grid-template-columns: 1fr;
+        grid-auto-rows: max-content;
+    }
+
+    .linklist {
+        grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+        align-items: center;
     }
 }

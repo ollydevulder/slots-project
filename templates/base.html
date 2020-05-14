@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'icons/favicon.ico' %}">
     <title>{% block title %}Slots App{% endblock %}</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Lato&display=swap" rel="stylesheet">
@@ -25,9 +26,9 @@
                             <a href="{% url 'slots:signup' %}">sign up</a>
                             <a href="{% url 'slots:login' %}">log in</a>
                         {% else %}
-                            <a class="user">{{ user.username }}</a>
-                            <a href="{% url 'slots:shops' %}">view shops</a>
-                            <a href="{% url 'slots:logout' %}">log out</a>
+                            <a href="{% url 'slots:user' %}" class="user">{{ user.username }}</a>
+                            <a href="{% url 'slots:shops' %}">shops</a>
+                            <a href="{% url 'slots:logout' %}" class="logout">log out</a>
                         {% endif %}
                     {% endblock %}
                 </div>

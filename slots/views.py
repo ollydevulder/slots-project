@@ -2,12 +2,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.views.generic import DetailView, ListView
 
 # Models
 
-from .models import Shop
+from .models import Shop, Slot
 from django.contrib.auth.models import User
 
 # Forms
@@ -39,6 +39,9 @@ class check_logged_in(object):
         return wrapper
 
 # Views
+
+
+LOGIN = 'slots:login'
 
 
 @check_logged_in('slots:shops', True)
@@ -80,10 +83,10 @@ def login_view(request):  # slots:login
     )
 
 
-@check_logged_in('slots:login')
+@check_logged_in(LOGIN)
 def logout_view(request):  # slots:logout
     logout(request)
-    return redirect('slots:login')
+    return redirect(LOGIN)
 
 
 @check_logged_in('slots:index', True)
@@ -127,8 +130,8 @@ def signup_view(request):  # slots:signup
                 login(request, user)
                 # Display success page.
                 return render(
-                    request, 
-                    'slots/success.html', 
+                    request,
+                    'slots/success.html',
                     {'message': 'Your account has been created.'}
                 )
         else:
@@ -142,13 +145,96 @@ def signup_view(request):  # slots:signup
     return render(request, 'slots/signup.html', context)
 
 
-@check_logged_in('slots:login')  # slots:index
-def index(request):
+@check_logged_in(LOGIN)
+def index(request):  # slots:index
     # Temporary redirect
     return redirect('slots:shops')
 
 
-@method_decorator(check_logged_in('slots:login'), name='dispatch')
+@check_logged_in(LOGIN)
+def user_view(request):  # slots:user
+    return render(request, 'slots/user.html')
+
+
+@check_logged_in(LOGIN)
+def slot_manage_view(request, **kwargs):  # slots:manage-slot
+    """
+    The big daddy for slot views.
+    """
+    allowed_methods = {
+        'book': book_slot_view,
+        'cancel': cancel_slot_view,
+    }
+
+    try:
+        # Do the shop and slot exist?
+        shop = Shop.objects.get(pk=kwargs['shop'])
+        slot = Slot.objects.get(shop=shop, position=kwargs['slot'])
+        kwargs['shop'] = shop
+        kwargs['slot'] = slot
+
+        # Is the slot taken?
+        taken = bool(slot.user)
+        kwargs['taken'] = taken
+
+        # Does the current user own the slot?
+        owns = request.user == slot.user
+        kwargs['owns'] = owns
+
+        # Does the current user own any slots in the shop?
+        owns_any = bool(shop.slot_set.filter(user=request.user))
+        kwargs['owns_any'] = owns_any
+
+        # Carry out the action.
+        return allowed_methods[kwargs['method']](request, **kwargs)
+
+    except:
+        # Something went wrong.
+        return redirect('slots:shops')
+
+
+def book_slot_view(request, **kwargs):  # slots:manage-slot
+    # If slot is free and current user does not own any slots from the shop...
+    if not kwargs['taken'] and not kwargs['owns_any']:
+        # Set the slot's owner to current user.
+        slot = kwargs['slot']
+        slot.user = request.user
+        slot.save()
+
+        # Render success page.
+        shop = kwargs['shop']
+        shop_url = reverse('slots:view-shop', args=[shop.pk])
+        slot_url = reverse('slots:slots')
+        message = f'You have booked slot #{slot.position+1} from <a href="{shop_url}">{shop.name}</a>. <a href="{slot_url}">View my slots.</a>'
+        context = {
+            'message': message,
+        }
+
+        return render(request, 'slots/success.html', context=context)
+    else:
+        raise Exception('User not allowed to book this slot.')
+
+
+def cancel_slot_view(request, **kwargs):  # slots:manage-slot
+    # If slot is owned by current user...
+    if kwargs['owns']:
+        # Set the slot user to NULL.
+        slot = kwargs['slot']
+        slot.user = None
+        slot.save()
+
+        # Render success page.
+        message = f'You have cancelled the slot.'
+        context = {
+            'message': message,
+        }
+
+        return render(request, 'slots/success.html', context=context)
+    else:
+        raise Exception('User can only cancel slots owned by them.')
+
+
+@method_decorator(check_logged_in(LOGIN), name='dispatch')
 class ShopsView(ListView):  # slots:shops
     model = Shop
     template_name = 'slots/shops.html'
@@ -156,8 +242,27 @@ class ShopsView(ListView):  # slots:shops
     ordering = ['name']
 
 
-@method_decorator(check_logged_in('slots:login'), name='dispatch')
+@method_decorator(check_logged_in(LOGIN), name='dispatch')
 class ShopView(DetailView):  # slots:view-shop
     model = Shop
     template_name = 'slots/shop-page.html'
     context_object_name = 'shop'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add 'owns' var for template styling.
+        # Does the shop have a slot owned by the current user?
+        context['owns'] = bool(
+            context['shop'].slot_set.filter(user=self.request.user))
+
+        return context
+
+
+@method_decorator(check_logged_in(LOGIN), name='dispatch')
+class SlotsView(ListView):  # slots:slots
+    def get_queryset(self):
+        return self.request.user.slot_set.all()
+
+    template_name = 'slots/slots.html'
+    context_object_name = 'slots'
