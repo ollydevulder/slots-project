@@ -8,14 +8,14 @@
 
 {% block content %}
     {% if owns %}
-        <p>You have already booked a slot in this here. To change this go <a href="{% url 'slots:slots' %}">here</a>.</p>
+        <p>You have already booked a slot for this shop. To change this go <a href="{% url 'slots:slots' %}">here</a>.</p>
     {% endif %}
     <div class="container slot-container">
         {% for slot in shop.ordered_slots %}
             {% if slot.user == user %}
                 <a class="slot owns" title="You have booked this slot." href="{% url 'slots:slots' %}">
             {% elif slot.user %}
-                <a class="slot taken" title="This slot is taken.">
+                <a class="slot taken noclick" title="This slot is taken.">
             {% else %}
                 <a class="slot{% if owns %} noclick{% endif %}" title="Book this slot." {% if not owns %}href="{% url 'slots:manage-slot' method='book' shop=slot.shop.pk slot=slot.position %}"{% endif %}>
             {% endif %}
