@@ -9,9 +9,11 @@ from .base_settings import *
 
 if os.path.isfile(os.path.join(BASE_DIR, 'covidproject/local_settings.py')):
     # Running locally.
+    print('Using local settings.')
     from .local_settings import *
 else:
     # Production
+    print('Using production settings.')
     from .production_settings import *
 
     from django_heroku import settings
