@@ -7,7 +7,6 @@
 {% block header %}Shops{% endblock %}
 
 {% block content %}
-    <!--<p>This is the main page :)</p>-->
     <div class="container shop-container">
         {% for shop in shop_list %}
             <a href="{% url 'slots:view-shop' shop.pk %}" class="shop">

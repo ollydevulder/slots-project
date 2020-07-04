@@ -1,18 +1,13 @@
-#       ==Settings for Slots App==
-#       Determines if project is being run locally
-#       or in production. It does this by checking
-#       for a .env file in the root dir.
-#       Therefore, when running locally, a .env
-#       file is required as well as a
-#       localsettings.py file. (in this directory)
-
+"""This is a control file for settings. Determines whether app is being used
+in production or for local testing by searching for a 'local_settings.py' file.
+"""
 
 import os
 
 from .base_settings import *
 
 
-if os.path.isfile(os.path.join(BASE_DIR, '.env')):
+if os.path.isfile(os.path.join(BASE_DIR, 'covidproject/local_settings.py')):
     # Running locally.
     from .local_settings import *
 else:

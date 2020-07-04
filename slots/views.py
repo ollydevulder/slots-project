@@ -145,10 +145,8 @@ def signup_view(request):  # slots:signup
     return render(request, 'slots/signup.html', context)
 
 
-@check_logged_in(LOGIN)
 def index(request):  # slots:index
-    # Temporary redirect
-    return redirect('slots:shops')
+    return render(request, 'slots/index.html')
 
 
 @check_logged_in(LOGIN)

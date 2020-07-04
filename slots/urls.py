@@ -12,7 +12,8 @@ urlpatterns = [
     
     path('shops/', views.ShopsView.as_view(), name='shops'),
     path('shops/<int:pk>/', views.ShopView.as_view(), name='view-shop'),
-    path('shops/<int:shop>/<str:method>/<int:slot>/', views.slot_manage_view, name='manage-slot'),
+    path('shops/<int:shop>/<str:method>/<int:slot>/',
+         views.slot_manage_view, name='manage-slot'),
 
     path('me/', views.user_view, name='user'),
     path('me/slots', views.SlotsView.as_view(), name='slots'),
