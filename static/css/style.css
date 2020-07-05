@@ -114,9 +114,21 @@ a:hover {
     background-clip: text;
     color: transparent;
     animation: rainbow 8s ease infinite;
+
+
+    -webkit-background-size: 1000%;
+    -webkit-background-clip: text;
+    -webkit-animation: rainbow 8s ease infinite;
+    
 }
 
 @keyframes rainbow { 
+    0%{background-position:0% 50%}
+    50%{background-position:100% 25%}
+    100%{background-position:0% 50%}
+}
+
+@-webkit-keyframes rainbow { 
     0%{background-position:0% 50%}
     50%{background-position:100% 25%}
     100%{background-position:0% 50%}
