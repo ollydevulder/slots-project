@@ -28,13 +28,15 @@
     cursor: pointer;
     border-color: gray;
     border-left-color: var(--light-red);
-    font-size: 1.5rem;
+    /* font-size: 1.5rem; */
+    letter-spacing: 0.4rem;
 }
 
 .form input[type=submit]:focus {
     border-color: gray;
     border-left-color: var(--light-red);
-    font-size: 1.5rem;
+    /* font-size: 1.5rem; */
+    letter-spacing: 0.4rem;
 }
 
 .error {

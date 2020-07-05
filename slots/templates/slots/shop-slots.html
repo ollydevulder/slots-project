@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}{% static 'slots/css/shops.css' %}{% endblock  %}
+
+{% block title %}{% if modify %}Modify Slot{% else %}{{ shop.name }}{% endif %}{% endblock %}
+
+{% block header %}{{ shop.name }}{% endblock %}
+
+{% block content %}
+    {% if owns %}
+        <p>You have already booked a slot for this shop. To change this go <a href="{% url 'slots:slots' %}">here</a>.</p>
+    {% endif %}
+    {% if modify %}
+        <p>Select a new slot for this shop. To cancel, just go back.</p>
+    {% endif %}
+    <div class="container slot-container">
+        {% for slot in shop.ordered_slots %}
+            {% if slot.user == user %}
+                <a class="slot owns" title="{% if not modify %}You have booked this slot.{% else %}Current slot.{% endif %}" {% if not modify %}href="{% url 'slots:slots' %}"{% endif %}>
+            {% elif slot.user %}
+                <a class="slot taken noclick" title="This slot is taken.">
+            {% else %}
+                <a class="slot{% if owns %} noclick{% endif %}" title="{% if owns %}You have already booked a slot.{% else %}Book this slot.{% endif %}"
+                {% if not owns %}
+                    {% if not modify %}
+                        href="{% url 'slots:manage-slot' method='book' shop=slot.shop.pk slot=slot.position %}"
+                    {% else %}
+                        href="{% url 'slots:manage-slot' method='modify' shop=slot.shop.pk slot=slot.position %}"
+                    {% endif %}
+                {% endif %}>
+            {% endif %}
+            {{ slot.position|add:1 }}
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

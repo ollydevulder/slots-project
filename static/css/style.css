@@ -80,6 +80,11 @@ a:hover {
     color: var(--red);
 }
 
+.header * {
+    display: inline-block;
+    width: max-content;
+}
+
 .content {
     grid-area: content;
     margin: 1rem;

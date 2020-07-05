@@ -13,7 +13,11 @@
 <body>
     <div class="container main-container">
         <div class="header">
-            <a href="{% url 'slots:index' %}"><h1>{% block header %}{% endblock %}</h1></a>
+            <h1>{% block header %}{% endblock %}</h1>
+            {% block homelink %}
+                <a href="{% url 'slots:index' %}" title="{% block headertitle %}Go back home.{% endblock %}">home</a>
+            {% endblock %}
+
         </div>
         <div class="content">
             {% block content %}{% endblock %}

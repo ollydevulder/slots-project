@@ -13,7 +13,7 @@
                 <div class="slot">
                     <p>Slot {{ slot.position|add:1 }} at <a href="{% url 'slots:view-shop' pk=slot.shop.pk %}">{{ slot.shop.name }}</a>.</p>
                     <div class="buttons">
-                        <a class="modify" href="#">modify</a>
+                        <a class="modify" href="{% url 'slots:modify' shop=slot.shop.pk %}">modify</a>
                         <a class="cancel" href="{% url 'slots:manage-slot' method='cancel' shop=slot.shop.pk slot=slot.position %}">cancel</a>
                     </div>
                 </div>

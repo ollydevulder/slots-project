@@ -145,7 +145,7 @@ def signup_view(request):  # slots:signup
     return render(request, 'slots/signup.html', context)
 
 
-def index(request):  # slots:index
+def index_view(request):  # slots:index
     return render(request, 'slots/index.html')
 
 
@@ -162,6 +162,7 @@ def slot_manage_view(request, **kwargs):  # slots:manage-slot
     allowed_methods = {
         'book': book_slot_view,
         'cancel': cancel_slot_view,
+        'modify': modify_slot_view,
     }
 
     try:
@@ -180,8 +181,10 @@ def slot_manage_view(request, **kwargs):  # slots:manage-slot
         kwargs['owns'] = owns
 
         # Does the current user own any slots in the shop?
-        owns_any = bool(shop.slot_set.filter(user=request.user))
-        kwargs['owns_any'] = owns_any
+        owns_any = shop.slot_set.filter(user=request.user)
+        kwargs['owns_any'] = bool(owns_any)
+        if owns_any:
+            kwargs['user_slot'] = owns_any[0]
 
         # Carry out the action.
         return allowed_methods[kwargs['method']](request, **kwargs)
@@ -201,9 +204,15 @@ def book_slot_view(request, **kwargs):  # slots:manage-slot
 
         # Render success page.
         shop = kwargs['shop']
-        shop_url = reverse('slots:view-shop', args=[shop.pk])
-        slot_url = reverse('slots:slots')
-        message = f'You have booked slot #{slot.position+1} from <a href="{shop_url}">{shop.name}</a>. <a href="{slot_url}">View my slots.</a>'
+        
+        message = """You have booked slot #{} from <a href="{}">{}</a>.<br>
+        You can view your booked slots <a href="{}">here</a>.
+        """.format(
+            slot.position + 1,
+            reverse('slots:view-shop', args=[shop.pk]),
+            shop.name,
+            reverse('slots:slots')
+        )
         context = {
             'message': message,
         }
@@ -232,6 +241,55 @@ def cancel_slot_view(request, **kwargs):  # slots:manage-slot
         raise Exception('User can only cancel slots owned by them.')
 
 
+def modify_slot_view(request, **kwargs): # slots:manage-slot
+    # Does the user own a slot in this shop? (yes)
+    # Is the slot taken? (no)
+    if kwargs['owns_any'] and not kwargs['taken']:
+        # Conditions satisfied.
+        # Set the user's first slot's user to NULL.
+        slot = kwargs['user_slot']
+        slot.user = None
+        slot.save()
+        
+        # Set new slot's user to user.
+        slot = kwargs['slot']
+        slot.user = request.user
+        slot.save()
+
+        # Render success page.
+        shop = kwargs['shop']
+        message = """You have modified your slot at <a href="{}">{}</a> from 
+        #{} to #{}.<br>If you want to change it again go <a href="{}">here</a>.
+        """.format(
+            reverse('slots:view-shop', args=[shop.pk]),
+            shop.name,
+            kwargs['user_slot'].position + 1,
+            slot.position + 1,
+            reverse('slots:modify', args=[shop.pk])
+        )
+        context = {
+            'message': message,
+        }
+
+        return render(request, 'slots/success.html', context=context)
+    else:
+        raise Exception('User cannot modify this slot.')
+
+
+@check_logged_in(LOGIN)
+def modify_view(request, **kwargs):  # slots:modify
+    shop = Shop.objects.get(pk=kwargs['shop'])
+    # Does the user have a slot in this shop?
+    if shop.slot_set.filter(user=request.user):
+        context = {
+            'modify': True,
+            'shop': shop,
+        }
+        return render(request, 'slots/shop-slots.html', context=context)
+    else:
+        return redirect('slots:shops')
+
+
 @method_decorator(check_logged_in(LOGIN), name='dispatch')
 class ShopsView(ListView):  # slots:shops
     model = Shop
@@ -243,8 +301,9 @@ class ShopsView(ListView):  # slots:shops
 @method_decorator(check_logged_in(LOGIN), name='dispatch')
 class ShopView(DetailView):  # slots:view-shop
     model = Shop
-    template_name = 'slots/shop-page.html'
+    template_name = 'slots/shop-slots.html'
     context_object_name = 'shop'
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -252,9 +311,14 @@ class ShopView(DetailView):  # slots:view-shop
         # Add 'owns' var for template styling.
         # Does the shop have a slot owned by the current user?
         context['owns'] = bool(
-            context['shop'].slot_set.filter(user=self.request.user))
+            context['shop'].slot_set.filter(user=self.request.user)
+        )
+
+        context['modify'] = False
 
         return context
+
+
 
 
 @method_decorator(check_logged_in(LOGIN), name='dispatch')
