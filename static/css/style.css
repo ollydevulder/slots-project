@@ -16,6 +16,8 @@
     --blue: #508ef2;
     --dark-blue: #2965c4;
     --purple: #bf39d1;
+
+    --faded: #b0b0b0;
     
 }
 
@@ -39,10 +41,16 @@ p, li, a {
     /* font-family: 'Lato', sans-serif; */
 }
 
+p {
+    font-family: 'Lato', sans-serif;
+}
+
 a {
     text-decoration: none;
+    font-family: 'Bree Serif', serif;
     background-color: var(--background2);
     color: var(--red);
+    /* cursor: pointer; */
 }
 
 a:hover {
@@ -92,6 +100,26 @@ a:hover {
 
 .content p {
     margin: 0.5rem 1.5rem;
+}
+
+.chunk {
+    margin: 2rem 1rem;
+}
+
+.funky {
+    font-family: 'Bree Serif', serif;
+    letter-spacing: 0.15rem;
+    background-image: repeating-linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 1000%;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow 8s ease infinite;
+}
+
+@keyframes rainbow { 
+    0%{background-position:0% 50%}
+    50%{background-position:100% 25%}
+    100%{background-position:0% 50%}
 }
 
 .sidebar {

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load slot_extras %}
 {% block css %}{% static 'slots/css/shops.css' %}{% endblock %}
 
 {% block title %}Slots App{% endblock title %}
@@ -12,6 +13,9 @@
             <a href="{% url 'slots:view-shop' shop.pk %}" class="shop">
                 <p>{{ shop.name }}</p>
                 <span>{{ shop.get_amount_available_slots }} slots</span>
+                {% if shop|has_user:user %}
+                    <span class="booked">Booked</span>
+                {% endif %}
             </a>
         {% endfor %}
     </div>

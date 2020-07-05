@@ -1,5 +1,11 @@
 .slot-container {
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 33%));
+}
+
+@media screen and (max-width:60em) {
+    .slot-container {
+        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    }
 }
 
 .slot {

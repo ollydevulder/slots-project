@@ -146,7 +146,12 @@ def signup_view(request):  # slots:signup
 
 
 def index_view(request):  # slots:index
-    return render(request, 'slots/index.html')
+    context = {
+        'users': User.objects.count(),
+        'shops': Shop.objects.count(),
+        'slots': Slot.objects.count(),
+    }
+    return render(request, 'slots/index.html', context=context)
 
 
 @check_logged_in(LOGIN)
