@@ -1,6 +1,6 @@
 .shop-container {
     margin: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     grid-template-rows: max-content;
     gap: 2rem;
 
