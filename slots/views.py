@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 
 # Forms
 
-from .forms import LoginForm, SignupForm
+from .forms import LoginForm, SignupForm, UserSettingsForm
 
 # Decorators
 
@@ -157,6 +157,50 @@ def index_view(request):  # slots:index
 @check_logged_in(LOGIN)
 def user_view(request):  # slots:user
     return render(request, 'slots/user.html')
+
+
+@check_logged_in(LOGIN)
+def user_settings_view(request):  # slots:settings
+    context = {
+        'error_msg': {
+            'error': [],
+        },
+        'success_msg': {},
+    }
+
+    if request.method == 'POST':
+        form = UserSettingsForm(request.POST)
+        if form.is_valid():
+            # These fields are not required for form to be valid so we need to
+            # check if they are key values in the dictionary.
+            data = {}
+            for field in ('new_username',):
+                if field in form.cleaned_data:
+                    data[field] = form.cleaned_data[field]
+                else:
+                    data[field] = None
+                context['error_msg'][field] = []
+                context['success_msg'][field] = ''
+            
+            # Username
+            if data['new_username']:
+                # Is username taken?
+                if User.objects.filter(username=data['new_username']).count():
+                    context['error_msg']['new_username'].append(
+                        f'Sorry, {data["new_username"]} is taken.'
+                    )
+                else:
+                    # Username is free; change it.
+                    request.user.username = data['new_username']
+                    request.user.save()
+                    context['success_msg']['new_username'] = 'Updated username!'
+
+        else:
+            # Dodgy form data.
+            context['error_msg']['error'].append('Invalid form data.')
+        
+    context['form'] = UserSettingsForm()
+    return render(request, 'slots/settings.html', context=context)
 
 
 @check_logged_in(LOGIN)

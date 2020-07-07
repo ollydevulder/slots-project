@@ -27,7 +27,6 @@
 .form input[type=submit]:hover {
     cursor: pointer;
     border-color: gray;
-    border-left-color: var(--light-red);
     /* font-size: 1.5rem; */
     letter-spacing: 0.4rem;
 }
@@ -39,9 +38,19 @@
     letter-spacing: 0.4rem;
 }
 
+.settings {
+    border: none;
+    margin-left: 2rem;
+}
+
+.settings .field {
+    background-color: var(--background2);
+    border: 0.2rem outset var(--background2);
+}
+
 .error {
-    color: var(--error);
     background-color: var(--light-red);
+    color: var(--error);
     margin-left: 0;
     width: max-content;
 }
@@ -49,4 +58,9 @@
 .error * {
     font-size: 1rem;
     padding: 0.1rem;
+}
+
+.success {
+    background-color: var(--green);
+    color: var(--darkgreen);
 }

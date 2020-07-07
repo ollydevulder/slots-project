@@ -17,6 +17,10 @@
             {% block homelink %}
                 <a href="{% url 'slots:index' %}" title="{% block headertitle %}Go back home.{% endblock %}">home</a>
             {% endblock %}
+            {% if user.is_authenticated %}
+                <span class="loggedin">logged in as {{ user.username }}</span>
+            {% endif %}
+            
 
         </div>
         <div class="content">
@@ -30,7 +34,7 @@
                             <a href="{% url 'slots:signup' %}">sign up</a>
                             <a href="{% url 'slots:login' %}">log in</a>
                         {% else %}
-                            <a href="{% url 'slots:user' %}" class="user">{{ user.username }}</a>
+                            <a href="{% url 'slots:user' %}" class="user" title="{{ user.username }}">account</a>
                             <a href="{% url 'slots:shops' %}">shops</a>
                             <a href="{% url 'slots:logout' %}" class="logout">log out</a>
                         {% endif %}

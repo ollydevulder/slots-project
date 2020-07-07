@@ -84,13 +84,22 @@ a:hover {
     /* color: var(--e); */
 }
 
+.header * {
+    display: inline-block;
+    width: max-content;
+}
+
 .header h1 {
     color: var(--red);
 }
 
-.header * {
-    display: inline-block;
-    width: max-content;
+.header .loggedin {
+    float: right;
+    color: var(--purple);
+}
+
+.header a {
+    color: var(--light-red);
 }
 
 .content {

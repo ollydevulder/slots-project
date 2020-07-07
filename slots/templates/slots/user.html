@@ -4,6 +4,12 @@
 {% block header %}Me{% endblock %}
 
 {% block content %}
-    <p>Hey {{ user.username }}!</p>
-    <p>You can <a href="{% url 'slots:slots' %}">view booked slots</a>.</p>
+    <div class="chunk">
+        <p>Hi {{ user.username }}!</p>
+        <p>This is your account page.</p>
+    </div>
+    <div class="chunk">
+        <p><a href="{% url 'slots:slots' %}">view booked slots</a><br></p>
+        <p><a href="{% url 'slots:settings' %}">change account details</a></p>
+    </div>
 {% endblock %}

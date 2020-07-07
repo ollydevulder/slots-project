@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load slot_extras %}
+
+{% block css %}{% static 'slots/css/forms.css' %}{% endblock %}
+
+{% block title %}Settings - {{ user.username }}{% endblock %}
+
+{% block header %}Account Settings{% endblock %}
+
+
+{% block content %}
+    <div class="chunk">
+        <p>Here, you can make changes to your account.</p>
+        <p class="important">Careful: changes may be irrevocable!</p>
+    </div>
+    <form action="{% url 'slots:settings' %}" method="POST" class="container form settings">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="field">
+                <span>{{ field.help_text }}</span>
+                {% if error_msg|var_property:field.name %}
+                    <div class="error">
+                        {% for err in error_msg|var_property:field.name %}
+                            <span>{{ err }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if success_msg|var_property:field.name %}
+                    <div class="success">
+                        <span>{{ success_msg|var_property:field.name }}
+                    </div>
+                {% endif %}
+                {{ field }}
+            </div>
+        {% endfor %}
+        {% if error_msg.error %}
+            <div class="error">
+                {% for err in error_msg.error %}
+                    <p> {{ err }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <input type="submit" value="Make Changes">
+    </form>
+    <script src="{% static 'slots/js/settings.js' %}"></script>
+{% endblock %}
+
+

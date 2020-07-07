@@ -19,5 +19,6 @@ urlpatterns = [
     path('shops/<int:shop>/modify/', views.modify_view, name='modify'),
 
     path('me/', views.user_view, name='user'),
-    path('me/slots', views.SlotsView.as_view(), name='slots'),
+    path('me/slots/', views.SlotsView.as_view(), name='slots'),
+    path('me/settings/', views.user_settings_view, name='settings'),
 ]
