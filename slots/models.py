@@ -17,12 +17,16 @@ class Slot(models.Model):
 
 class Shop(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    slot_amount = models.IntegerField(default=10)
+    slot_amount = models.PositiveIntegerField(default=10)
 
     def __str__(self):
         return f"<Shop '{self.name}'>"
 
     def save(self, *args, **kwargs):
+        # Limit the slot amount.
+        if self.slot_amount > 100:
+            self.slot_amount = 100
+
         super().save(*args, **kwargs)
         # Overwrite save method to add slot objects.
         if self.slot_set.count() != self.slot_amount:
@@ -32,6 +36,7 @@ class Shop(models.Model):
                 except Slot.DoesNotExist:
                     # The slot does not exist.
                     Slot(shop=self, position=i).save()
+
 
     @property
     def ordered_slots(self):
