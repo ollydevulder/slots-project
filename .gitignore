@@ -8,9 +8,10 @@ __pycache__/
 *.pot
 *.pyc
 __pycache__/
-migrations/
 staticfiles/
 local_settings.py
 
+### Local ###
+venv/
 .env
 db.sqlite3
